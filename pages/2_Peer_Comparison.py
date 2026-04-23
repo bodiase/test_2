@@ -421,7 +421,8 @@ if takeaways:
 else:
     st.write("Not enough peer-comparison signals were available to generate takeaways.")
 
-st.markdown("## 5) Explore More")
+# EXPLORE MORE
+st.markdown("## Explore More")
 st.markdown(
     """
 - **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
