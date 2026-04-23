@@ -1,6 +1,21 @@
-# streamlit_app.py
-
 import streamlit as st
+
+# Define pages with icons
+pages = {
+    "Home": [
+        st.Page("streamlit_app.py", title="Home", icon="🏠"),
+    ],
+    "Analysis": [
+        st.Page("pages/1_Valuation.py", title="Valuation Assessment", icon="📈"),
+        st.Page("pages/2_Peer_Comparison.py", title="Peer Comparison", icon="📊"),
+        st.Page("pages/3_Risk.py", title="Risk Analysis", icon="⚠️"),
+    ],
+    "Other": [
+        st.Page("pages/4_Methodology.py", title="Methodology", icon="ℹ️"),
+    ],
+}
+
+pg = st.navigation(pages)
 
 st.set_page_config(page_title="ValueLens", layout="wide")
 
