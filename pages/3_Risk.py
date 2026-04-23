@@ -238,7 +238,7 @@ st.markdown("## 6) Explore More")
 st.markdown(
     """
 - **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
-- **Risk Analysis:** Examine beta, alpha, and R-squared for the selected company
+- **Peer Comparison:** Benchmark the selected company against peer averages across key financial metrics  
 - **Methodology:** See the project framing, data sources, and modeling context
 """
 )
