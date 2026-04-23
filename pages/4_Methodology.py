@@ -90,8 +90,7 @@ def build_confusion_matrix(df):
     cm.index.name = "Actual"
     cm.columns.name = "Predicted"
     return cm
-
-
+    
 def build_class_summary(df):
     if df is None:
         return None
@@ -315,12 +314,12 @@ st.write(
 )
 
 st.markdown("### Class-level summary")
-if class_summary_df is not None:
-    st.dataframe(class_summary_df, use_container_width=True, hide_index=True)
-else:
-    st.write("Class-level summary is not available.")
+class_summary_display = class_summary_df.copy()
+class_summary_display["Precision"] = class_summary_display["Precision"].map(lambda x: format_percent(x, 1))
+class_summary_display["Recall"] = class_summary_display["Recall"].map(lambda x: format_percent(x, 1))
+st.dataframe(class_summary_display, use_container_width=True, hide_index=True)
 
-with st.expander("Optional: Confusion matrix"):
+with st.expander("Confusion matrix"):
     if cm is not None:
         cm_long = (
             cm.reset_index()
@@ -408,10 +407,12 @@ if comparison_df is not None:
     expected_cols = ["model", "train_accuracy", "test_accuracy", "train_f1", "test_f1"]
     available_cols = [col for col in expected_cols if col in comparison_df.columns]
 
+    comparison_display = comparison_df[available_cols].copy()
+
     st.dataframe(
-        comparison_df[available_cols].style.format({
-            "train_accuracy": "{:.3f}",
-            "test_accuracy": "{:.3f}",
+        comparison_display.style.format({
+            "train_accuracy": "{:.1%}",
+            "test_accuracy": "{:.1%}",
             "train_f1": "{:.3f}",
             "test_f1": "{:.3f}",
         }),
@@ -419,18 +420,12 @@ if comparison_df is not None:
         hide_index=True,
     )
 
-    st.write(
-        "The final selected model was **Logistic Regression**, chosen because it delivered the strongest out-of-sample macro F1 "
-        "while also remaining highly interpretable for a finance-focused app."
+    st.caption(
+        "Several classification models were evaluated before selecting the final model. "
+        "This comparison shows that the chosen model was intentional rather than arbitrary."
     )
-
-    for _, row in comparison_df.iterrows():
-        model_name = row["model"]
-        test_acc = row["test_accuracy"]
-        test_f1 = row["test_f1"]
-        st.markdown(f"- **{model_name}:** Test Accuracy = {test_acc:.3f}, Test Macro F1 = {test_f1:.3f}")
 else:
-    st.write("Alternative model comparison results are not available.")
+    st.warning("`valuation_model_comparison_results.csv` could not be found.")
 
 # 8) DATA SOURCES
 st.markdown("## 8) Data Sources")
@@ -450,31 +445,19 @@ data_sources_df = pd.DataFrame({
 
 st.dataframe(data_sources_df, use_container_width=True, hide_index=True)
 
-# 9) PIPELINE / WORKFLOW
-st.markdown("## 9) Pipeline / Workflow")
+# 9) WORKFLOW
+st.markdown("## 9) Workflow Summary")
 
-workflow_df = pd.DataFrame({
-    "Step": [
-        "1. Raw Data",
-        "2. Data Cleaning",
-        "3. Feature Engineering",
-        "4. Label Construction",
-        "5. Model Training",
-        "6. Model Selection",
-        "7. App Deployment",
-    ],
-    "Description": [
-        "Collected accounting and market inputs from approved sources.",
-        "Standardized fields, aligned time periods, and prepared usable company-year observations.",
-        "Built core, change-based, and peer-relative features.",
-        "Converted the valuation score into three classes: Overvalued, Fairly Valued, and Undervalued.",
-        "Tested multiple classification models using a time-based train/test split.",
-        "Selected the final model based on out-of-sample performance and interpretability.",
-        "Saved final artifacts and connected them to the Streamlit app for interactive use.",
-    ],
-})
-
-st.dataframe(workflow_df, use_container_width=True, hide_index=True)
+with st.expander("Show pipeline summary"):
+    st.markdown(
+        """
+1. **Collect historical financial and market data** using course-approved sources  
+2. **Construct cleaned modeling datasets** and engineer ratios, change features, and peer-relative features  
+3. **Train and compare multiple models** offline using the prepared training data  
+4. **Export deployment-safe artifacts** such as CSV files and saved model objects  
+5. **Deploy the app** using saved files plus public/free sources where appropriate  
+"""
+    )
 
 # 10) LIMITATIONS
 st.markdown("## 10) Limitations")
