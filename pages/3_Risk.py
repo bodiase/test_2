@@ -235,7 +235,7 @@ st.info(
     "company fundamentals and peer comparisons."
 )
 
-st.markdown("## 5) Explore More")
+st.markdown("## 6) Explore More")
 st.markdown(
     """
 - **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
