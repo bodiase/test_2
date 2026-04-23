@@ -494,8 +494,8 @@ with st.expander("Show limitations"):
 st.markdown("## Explore More")
 st.markdown(
     """
-- **Valuation:** See the model-based valuation classification for a selected company.  
-- **Peer Comparison:** Compare company metrics against peer medians and percentile positions.  
-- **Risk (CAPM):** Review beta, alpha, and CAPM-based market-risk interpretation.  
+- **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
+- **Peer Comparison:** Benchmark the selected company against peer averages across key financial metrics  
+- **Risk Analysis:** Examine beta, alpha, and R-squared for the selected company
 """
 )
