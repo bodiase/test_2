@@ -234,3 +234,12 @@ st.info(
     "CAPM is a useful benchmark for understanding market risk, but it should always be interpreted alongside "
     "company fundamentals and peer comparisons."
 )
+
+st.markdown("## 5) Explore More")
+st.markdown(
+    """
+- **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
+- **Risk Analysis:** Examine beta, alpha, and R-squared for the selected company
+- **Methodology:** See the project framing, data sources, and modeling context
+"""
+)
