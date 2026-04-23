@@ -168,7 +168,7 @@ with link_col2:
 with link_col3:
     st.page_link("pages/3_Risk.py", label="Go to Risk Analysis", icon="⚠️")
 with link_col4:
-    st.page_link("pages/4_Methodology.py", label="Go to Methodology", icon="📘")
+    st.page_link("pages/4_Methodology.py", label="Go to Methodology", icon="ℹ️")
 
 with st.expander("Data Sources"):
     st.markdown(
