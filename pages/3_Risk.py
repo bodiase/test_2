@@ -234,7 +234,8 @@ else:
         "A low R-squared suggests that firm-specific factors play a larger role, so CAPM should be interpreted cautiously."
     )
 
-st.markdown("## 6) Explore More")
+# EXPLORE MORE
+st.markdown("## Explore More")
 st.markdown(
     """
 - **Valuation Assessment:** Review the model’s latest-year valuation result and historical valuation context
