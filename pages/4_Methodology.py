@@ -314,10 +314,10 @@ st.write(
 )
 
 st.markdown("### Class-level summary")
-class_summary_display = class_summary_df.copy()
-class_summary_display["Precision"] = class_summary_display["Precision"].map(lambda x: format_percent(x, 1))
-class_summary_display["Recall"] = class_summary_display["Recall"].map(lambda x: format_percent(x, 1))
-st.dataframe(class_summary_display, use_container_width=True, hide_index=True)
+if class_summary_df is not None:
+    st.dataframe(class_summary_df, use_container_width=True, hide_index=True)
+else:
+    st.write("Class-level summary is not available.")
 
 with st.expander("Confusion matrix"):
     if cm is not None:
