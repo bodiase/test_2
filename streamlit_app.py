@@ -1,233 +1,180 @@
-# File name:
 # streamlit_app.py
 
 import streamlit as st
 
+st.set_page_config(page_title="ValueLens", layout="wide")
 
-# PAGE CONFIG
-st.set_page_config(page_title="ValuEdge", page_icon="📊", layout="wide")
+# GLOBAL TICKER STATE
+if "ticker" not in st.session_state:
+    st.session_state["ticker"] = "A"
+
+# COMPANY NAMES
+TICKER_NAME_MAP = {
+    "LLY": "Eli Lilly and Company",
+    "JNJ": "Johnson & Johnson",
+    "ABBV": "AbbVie Inc.",
+    "MRK": "Merck & Co., Inc.",
+    "UNH": "UnitedHealth Group Incorporated",
+    "AMGN": "Amgen Inc.",
+    "ABT": "Abbott Laboratories",
+    "TMO": "Thermo Fisher Scientific Inc.",
+    "GILD": "Gilead Sciences, Inc.",
+    "ISRG": "Intuitive Surgical, Inc.",
+    "CVS": "CVS Health Corporation",
+    "BMY": "Bristol-Myers Squibb Company",
+    "MDT": "Medtronic plc",
+    "CI": "Cigna Group",
+    "ZTS": "Zoetis Inc.",
+    "SYK": "Stryker Corporation",
+    "REGN": "Regeneron Pharmaceuticals, Inc.",
+    "HCA": "HCA Healthcare, Inc.",
+    "DHR": "Danaher Corporation",
+    "HUM": "Humana Inc.",
+    "VRTX": "Vertex Pharmaceuticals Incorporated",
+    "MRNA": "Moderna, Inc.",
+    "PFE": "Pfizer Inc.",
+    "BIIB": "Biogen Inc.",
+    "ILMN": "Illumina, Inc.",
+    "EW": "Edwards Lifesciences Corporation",
+    "A": "Agilent Technologies, Inc.",
+    "DXCM": "DexCom, Inc.",
+    "IDXX": "IDEXX Laboratories, Inc.",
+    "ALGN": "Align Technology, Inc.",
+}
+
+AVAILABLE_TICKERS = list(TICKER_NAME_MAP.keys())
 
 
-# HEADER
-st.title("ValuEdge")
-st.subheader("Integrated Equity Analysis for Valuation, Peer Context, and Risk")
+def format_ticker_option(ticker_value):
+    return f"{ticker_value} ({TICKER_NAME_MAP.get(ticker_value, '')})"
+
+
+# SIDEBAR
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"### Current ticker: `{st.session_state['ticker']}`")
+
+# PAGE
+st.title("ValueLens")
+st.subheader("Integrated Healthcare Stock Analysis for Valuation, Peer Comparison, and Risk")
+
 st.write(
-    "ValuEdge is a financial analytics application that combines **machine learning-based valuation**, "
-    "**peer benchmarking**, and **CAPM-based risk analysis** into one unified workflow. "
-    "It helps users evaluate whether a stock appears overvalued, fairly valued, or undervalued "
-    "while also understanding the financial and market context behind that result."
+    "ValueLens is an integrated equity-analysis app designed to support better decision-making by combining "
+    "**machine learning-based valuation**, **peer benchmarking**, and **CAPM-based market risk analysis** "
+    "in one workflow. Instead of looking at a company from only one angle, the app helps users evaluate "
+    "how the stock appears on valuation, how it compares with peers, and what kind of market-risk profile it carries."
 )
 
-st.divider()
+top_left, top_right = st.columns([2, 1])
 
-
-# HERO SECTION
-left_col, right_col = st.columns([2, 1])
-
-with left_col:
-    st.markdown("## Why ValuEdge?")
+with top_left:
+    st.markdown("## Why ValueLens?")
     st.write(
-        "Most equity analysis tools focus on only one part of the decision process. "
-        "ValuEdge brings together three complementary perspectives:"
+        "A single metric rarely tells the full story. ValueLens brings together three complementary perspectives "
+        "so the user can move from a raw ticker selection to a more complete view of the company’s financial profile."
     )
     st.markdown(
         """
-- **Valuation** → What does the model predict?  
-- **Peer Comparison** → How does the company compare with similar firms?  
-- **Risk (CAPM)** → What kind of market risk and performance profile does it have?  
+- **Valuation Assessment** asks what the model suggests about the company’s valuation status  
+- **Peer Comparison** asks how the company stacks up against similar firms on key financial metrics  
+- **Risk Analysis (CAPM)** asks what kind of market sensitivity and risk-adjusted performance profile the stock has  
 """
     )
     st.write(
-        "Together, these components provide a more complete and interpretable view of a company’s financial profile."
+        "Together, these components provide a stronger analytical narrative for class discussion, presentation, and practical investment interpretation."
     )
 
-with right_col:
+with top_right:
     st.markdown("## Quick Facts")
-    metric_col1, metric_col2 = st.columns(2)
-    with metric_col1:
+    q1, q2 = st.columns(2)
+    with q1:
         st.metric("Core Pages", "4")
-        st.metric("Data Sources", "3")
-    with metric_col2:
+        st.metric("Sector Focus", "Healthcare")
+    with q2:
         st.metric("Final Model", "Logistic Regression")
         st.metric("Classes", "3")
 
-
 st.divider()
 
-
-# WHAT THE APP DOES
-st.markdown("## What the App Does")
-
-info_col1, info_col2, info_col3 = st.columns(3)
-
-with info_col1:
-    st.markdown("### 📈 Valuation")
-    st.write(
-        "Applies a multiclass valuation model to classify a company as "
-        "**Overvalued**, **Fairly Valued**, or **Undervalued**."
-    )
-
-with info_col2:
-    st.markdown("### 📊 Peer Comparison")
-    st.write(
-        "Benchmarks the selected company against peer medians and percentile-style "
-        "relative positions across key financial metrics."
-    )
-
-with info_col3:
-    st.markdown("### 📉 Risk (CAPM)")
-    st.write(
-        "Summarizes market sensitivity and risk-adjusted performance using "
-        "**beta**, **alpha**, and **R-squared**."
-    )
-
-
-st.divider()
-
-
-# HOW TO USE THE APP
-st.markdown("## How to Use ValuEdge")
-
-use_col1, use_col2 = st.columns([1, 1])
-
-with use_col1:
-    st.markdown(
-        """
-**Step 1** — Open the **Valuation** page and select a company ticker  
-**Step 2** — Review the model’s valuation classification and decision drivers  
-**Step 3** — Open **Peer Comparison** to benchmark the company against peers  
-**Step 4** — Open **Risk (CAPM)** to review market risk and performance  
-**Step 5** — Open **Methodology** for model design, evaluation, and data sources  
-"""
-    )
-
-with use_col2:
-    st.info(
-        "The selected ticker is designed to carry across pages using session state, "
-        "so the app works as one connected workflow rather than as separate isolated tools."
-    )
-
-
-st.divider()
-
-
-# PAGE GUIDE
-st.markdown("## Page Guide")
-
-guide_col1, guide_col2 = st.columns(2)
-
-with guide_col1:
-    st.markdown("### 📈 Valuation")
-    st.write(
-        "See the model-based valuation classification, class probabilities, "
-        "and the key drivers behind the prediction."
-    )
-
-    st.markdown("### 📊 Peer Comparison")
-    st.write(
-        "Compare the selected company with peer medians across profitability, "
-        "valuation, leverage, liquidity, and growth metrics."
-    )
-
-with guide_col2:
-    st.markdown("### 📉 Risk (CAPM)")
-    st.write(
-        "Review beta, alpha, R-squared, and a rules-based interpretation of the "
-        "company’s market-risk profile."
-    )
-
-    st.markdown("### 🧠 Methodology")
-    st.write(
-        "Understand the project’s modeling approach, evaluation results, feature design, "
-        "data sources, and workflow from raw data to app."
-    )
-
-
-st.divider()
-
-
-# KEY FEATURES / HIGHLIGHTS
-st.markdown("## Key Features")
-
-feature_col1, feature_col2 = st.columns(2)
-
-with feature_col1:
-    st.markdown(
-        """
-### 🔍 Interpretable Valuation Model
-The final model is a multiclass logistic regression, allowing the app to show
-not only the valuation result but also the key factors driving that result.
-
-### 🏢 Peer-Relative Context
-Companies are evaluated relative to peer benchmarks rather than in isolation,
-which makes the analysis more realistic and financially meaningful.
-"""
-    )
-
-with feature_col2:
-    st.markdown(
-        """
-### 📉 Integrated Risk Lens
-ValuEdge complements valuation with CAPM-based risk analysis so users can assess
-market sensitivity and risk-adjusted performance alongside financial context.
-
-### 🔗 End-to-End Analytics Workflow
-The app reflects a full pipeline from raw financial and market data to feature engineering,
-model training, evaluation, and interactive deployment.
-"""
-    )
-
-
-st.divider()
-
-
-# DATA SOURCES
-st.markdown("## Data Sources")
-
-source_col1, source_col2, source_col3 = st.columns(3)
-
-with source_col1:
-    st.markdown("### WRDS / Compustat")
-    st.write("Firm-level accounting and financial statement data used to build the valuation feature set.")
-
-with source_col2:
-    st.markdown("### yfinance")
-    st.write("Market-based inputs used to enrich the dataset with price and related market context.")
-
-with source_col3:
-    st.markdown("### Kenneth R. French Data Library")
-    st.write("Factor data used to support CAPM-based market risk analysis.")
-
-
-st.divider()
-
-
-# WORKFLOW PREVIEW
-st.markdown("## Workflow Overview")
-
-workflow_cols = st.columns(5)
-workflow_steps = [
-    ("1. Data", "Collect financial and market inputs"),
-    ("2. Features", "Engineer valuation and peer-relative variables"),
-    ("3. Model", "Train and evaluate classification models"),
-    ("4. Outputs", "Generate valuation, peer, and risk summaries"),
-    ("5. App", "Deliver insights through Streamlit pages"),
-]
-
-for col, (title, desc) in zip(workflow_cols, workflow_steps):
-    with col:
-        st.markdown(f"**{title}**")
-        st.caption(desc)
-
-
-st.divider()
-
-
-# CTA
-st.markdown("## Start Exploring")
-st.success(
-    "Use the sidebar to begin with the **Valuation** page, then move to **Peer Comparison**, "
-    "**Risk (CAPM)**, and **Methodology** for a complete view."
+st.markdown("## Select a Company")
+st.write(
+    "Choose a ticker here once, then click **Analyze**. The selected ticker will carry across the app."
 )
 
-st.caption("ValuEdge — bringing valuation, context, and risk together in one place.")
+selected_option = st.selectbox(
+    "Ticker",
+    options=AVAILABLE_TICKERS,
+    index=AVAILABLE_TICKERS.index(st.session_state["ticker"]) if st.session_state["ticker"] in AVAILABLE_TICKERS else 0,
+    format_func=format_ticker_option,
+)
+
+button_col1, button_col2 = st.columns([1, 4])
+with button_col1:
+    analyze_clicked = st.button("Analyze", use_container_width=True)
+
+if analyze_clicked:
+    st.session_state["ticker"] = selected_option
+    st.success(f"Ticker updated to {selected_option}. You can now open the Valuation, Peer Comparison, Risk, or Methodology pages.")
+
+st.markdown(f"### Current selected ticker: `{st.session_state['ticker']}`")
+
+st.divider()
+
+st.markdown("## What the App Does")
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    st.markdown("### 📈 Valuation Assessment")
+    st.write(
+        "What does the model suggest about the company’s valuation? "
+        "This page classifies the selected company as **Overvalued**, **Fairly Valued**, or **Undervalued**."
+    )
+
+with c2:
+    st.markdown("### 📊 Peer Comparison")
+    st.write(
+        "How does the company compare with similar firms? "
+        "This page benchmarks the selected company against peer averages across key financial metrics."
+    )
+
+with c3:
+    st.markdown("### ⚠️ Risk Analysis (CAPM)")
+    st.write(
+        "What kind of market-risk profile does the stock have? "
+        "This page evaluates **beta**, **alpha**, and **R-squared** using a CAPM-based perspective."
+    )
+
+st.divider()
+
+st.markdown("## How to Use ValueLens")
+st.markdown(
+    """
+1. Select a company ticker above and click **Analyze**  
+2. Open **Valuation Assessment** to see the model’s classification and key drivers  
+3. Open **Peer Comparison** to benchmark the company against peers  
+4. Open **Risk Analysis (CAPM)** to review market sensitivity and risk-adjusted performance  
+5. Open **Methodology** for the model, data, evaluation, and workflow details  
+"""
+)
+
+st.success("Use the sidebar to navigate across pages.")
+
+st.markdown("## Start Exploring")
+link_col1, link_col2, link_col3, link_col4 = st.columns(4)
+with link_col1:
+    st.page_link("pages/1_Valuation.py", label="Go to Valuation", icon="📈")
+with link_col2:
+    st.page_link("pages/2_Peer_Comparison.py", label="Go to Peer Comparison", icon="📊")
+with link_col3:
+    st.page_link("pages/3_Risk.py", label="Go to Risk Analysis", icon="⚠️")
+with link_col4:
+    st.page_link("pages/4_Methodology.py", label="Go to Methodology", icon="📘")
+
+with st.expander("Data Sources"):
+    st.markdown(
+        """
+- **WRDS / Compustat** — firm-level accounting and financial statement data used offline for dataset construction and model training  
+- **yfinance** — public/free market data used for deployment-safe market inputs and live/public updates  
+- **Kenneth R. French Data Library** — factor data used for CAPM-style market-risk analysis  
+"""
+    )
