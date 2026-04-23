@@ -461,10 +461,3 @@ with st.expander("Show limitations and caveats"):
 - Public/live add-ons should be treated as **supplemental snapshots**, not replacements for the main offline analysis  
 """
     )
-
-st.divider()
-st.caption(
-    "Recommended supporting files for this page: `valuation_test_predictions.csv`, "
-    "`valuation_model_comparison.csv` (or similar comparison file), and "
-    "`valuation_final_model_coefficients.csv`."
-)
