@@ -341,8 +341,7 @@ else:
 
 st.markdown("## 2) Peer Comparison Summary")
 st.caption(
-    "The table below compares the selected company’s latest-year values with peer averages. "
-    "The Difference column is color-coded so favorable gaps are easier to spot quickly."
+    "The table below compares the selected company’s latest-year values with peer averages."
 )
 
 st.dataframe(
@@ -425,9 +424,6 @@ else:
     st.altair_chart(grouped_bar + value_labels, use_container_width=True)
 
 st.markdown("## 4) Key Takeaways")
-st.info(
-    "These takeaways are kept separate from the comparison table so the page can show raw metrics first, then explain what they imply."
-)
 
 takeaways = build_takeaways(company_latest_row, peer_avg)
 
