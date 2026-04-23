@@ -508,7 +508,8 @@ st.markdown("## 5) Historical Inputs")
 with st.expander("See historical input data used for the year-by-year predictions"):
     st.dataframe(company_data, use_container_width=True, hide_index=True)
 
-st.markdown("## 6) Explore More")
+# EXPLORE MORE
+st.markdown("## Explore More")
 st.markdown(
     """
 - **Peer Comparison:** Benchmark the selected company against peer averages across key financial metrics  
