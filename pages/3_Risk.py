@@ -108,8 +108,39 @@ c2.metric("Beta", f"{beta:.3f}")
 c3.metric("R-squared", f"{r2:.3f}")
 c4.metric("Risk Label", label)
 
+# CAPM CONTEXT SECTION
+st.markdown("## 2) Risk Interpretation Guide")
+
+st.markdown("**What is CAPM?**")
+st.write(
+    "The Capital Asset Pricing Model (CAPM) is a framework used to evaluate whether a stock’s return "
+    "is appropriate given its level of market risk."
+)
+
+st.markdown("**Beta (Market Risk)**")
+st.write(
+    "Beta measures how sensitive a stock is to market movements. A beta above 1 indicates higher volatility, "
+    "while below 1 suggests a more defensive profile."
+)
+
+st.markdown("**Alpha (Performance)**")
+st.write(
+    "Alpha measures whether a stock has outperformed or underperformed relative to its expected return given its risk."
+)
+
+st.markdown("**R-squared (Reliability)**")
+st.write(
+    "R-squared indicates how much of a stock’s return variation is explained by the market. "
+    "Higher values suggest CAPM is more informative."
+)
+
+st.info(
+    "CAPM is a useful benchmark for understanding market risk, but it should always be interpreted alongside "
+    "company fundamentals and peer comparisons."
+)
+
 # BETA CHART
-st.markdown("## 2) Beta vs Market")
+st.markdown("## 3) Beta vs Market")
 
 chart_df = pd.DataFrame({
     "Type": ["Company", "Market"],
@@ -128,7 +159,7 @@ chart = alt.Chart(chart_df).mark_bar(size=60).encode(
 st.altair_chart(chart, use_container_width=True)
 
 # INTERPRETATION
-st.markdown("## 3) Interpretation")
+st.markdown("## 4) Interpretation")
 
 headline = ""
 if beta_case == "aggressive" and alpha_case == "negative":
@@ -149,7 +180,7 @@ st.write(
 )
 
 # KEY TAKEAWAYS
-st.markdown("## 4) Key Takeaways")
+st.markdown("## 5) Key Takeaways")
 
 # Beta takeaway
 if beta_case == "aggressive":
@@ -203,37 +234,6 @@ else:
     st.write(
         "A low R-squared suggests that firm-specific factors play a larger role, so CAPM should be interpreted cautiously."
     )
-
-# CAPM CONTEXT SECTION
-st.markdown("## 5) Risk Interpretation Guide")
-
-st.markdown("**What is CAPM?**")
-st.write(
-    "The Capital Asset Pricing Model (CAPM) is a framework used to evaluate whether a stock’s return "
-    "is appropriate given its level of market risk."
-)
-
-st.markdown("**Beta (Market Risk)**")
-st.write(
-    "Beta measures how sensitive a stock is to market movements. A beta above 1 indicates higher volatility, "
-    "while below 1 suggests a more defensive profile."
-)
-
-st.markdown("**Alpha (Performance)**")
-st.write(
-    "Alpha measures whether a stock has outperformed or underperformed relative to its expected return given its risk."
-)
-
-st.markdown("**R-squared (Reliability)**")
-st.write(
-    "R-squared indicates how much of a stock’s return variation is explained by the market. "
-    "Higher values suggest CAPM is more informative."
-)
-
-st.info(
-    "CAPM is a useful benchmark for understanding market risk, but it should always be interpreted alongside "
-    "company fundamentals and peer comparisons."
-)
 
 st.markdown("## 6) Explore More")
 st.markdown(
