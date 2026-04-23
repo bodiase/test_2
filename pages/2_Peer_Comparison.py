@@ -46,7 +46,6 @@ TICKER_NAME_MAP = {
 }
 
 # SIDEBAR
-st.sidebar.markdown("---")
 st.sidebar.markdown(f"### Current ticker: `{ticker}`")
 
 
