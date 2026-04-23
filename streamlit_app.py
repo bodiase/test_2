@@ -173,17 +173,6 @@ st.markdown(
 
 st.success("Use the sidebar to navigate across pages.")
 
-st.markdown("## Start Exploring")
-link_col1, link_col2, link_col3, link_col4 = st.columns(4)
-with link_col1:
-    st.page_link("pages/1_Valuation.py", label="Go to Valuation", icon="📈")
-with link_col2:
-    st.page_link("pages/2_Peer_Comparison.py", label="Go to Peer Comparison", icon="📊")
-with link_col3:
-    st.page_link("pages/3_Risk.py", label="Go to Risk Analysis", icon="⚠️")
-with link_col4:
-    st.page_link("pages/4_Methodology.py", label="Go to Methodology", icon="ℹ️")
-
 with st.expander("Data Sources"):
     st.markdown(
         """
